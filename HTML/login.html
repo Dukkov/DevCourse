@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form>
+      ID: <input type="text" id="txt_id" class="login_inputs"><br>
+      PW: <input type="password" class="login_inputs"><br>
+      <input type="button" id ="btn_login" value="Log in" onclick="popId()">
+    </form>
+    <script>
+      function popId() {
+        const input = document.getElementById("txt_id").value;
+        alert(input);
+      }
+
+      function myFunction() {
+        alert("1");
+        alert("2");
+        alert("3");
+      }
+    </script>
+  </body>
+</html>
