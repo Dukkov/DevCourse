@@ -3,29 +3,31 @@
   <head>
     <meta charset="utf8">
     <title>Tennis market</title>
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="index.css">
   </head>
   <body>
     <h1>Tennis market</h1>
-    <div>
+    <div id="txt_welcome">
       Welcome to Tennis market!<br>
-      Enjoy your shopping!<br>
+      Enjoy your shopping!<br><br>
       <a>Order list</a>
     </div>
-    <div class="card">
-      <img calss="card_img" src="./img/redRacket.png">
-      <p class="card_title">Red racket</p>
-      <input type="button" value="order" class="card_button" onclick="alert(1)">
-    </div>
-    <div class="card">
-      <img calss="card_img" src="./img/blueRacket.png">
-      <p class="card_title">Blue racket</p>
-      <input type="button" value="order" class="card_button" onclick="alert(2)">
-    </div>
-    <div class="card">
-      <img calss="card_img" src="./img/blackRacket.png">
-      <p class="card_title">Black racket</p>
-      <input type="button" value="order" class="card_button" onclick="alert(3)">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+      <div class="card">
+        <img calss="card_img" src="./img/redRacket.png">
+        <p class="card_title">Red racket</p>
+        <input type="button" value="order" class="card_button" onclick="alert(1)">
+      </div>
+      <div class="card">
+        <img calss="card_img" src="./img/blueRacket.png">
+        <p class="card_title">Blue racket</p>
+        <input type="button" value="order" class="card_button" onclick="alert(2)">
+      </div>
+      <div class="card">
+        <img calss="card_img" src="./img/blackRacket.png">
+        <p class="card_title">Black racket</p>
+        <input type="button" value="order" class="card_button" onclick="alert(3)">
+      </div>
     </div>
   </body>
 </html>
