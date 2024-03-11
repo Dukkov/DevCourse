@@ -1,0 +1,55 @@
+#headLine{
+    color: #630606;
+    text-align: center;
+    font-size: 50px;
+    border-bottom: 10px solid #890F0D;
+    padding-bottom: 20px;
+    margin-bottom: 0px;
+}
+
+#headLine a{
+    text-decoration: none;
+    color: #630606;
+}
+
+#grid{
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+}
+
+#grid img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+}
+
+#grid ul{
+    color: #E83A14;
+    border-right: 3px solid #E83A14;
+    margin-top: 0px;
+    padding-top: 50px;
+    padding-left: 70px;
+    border-bottom: 20px;
+    height: 400px;
+    width: 150px;
+}
+
+#grid a{
+    text-decoration: none;
+    color: #E83A14;
+    font-weight: bold;
+    font-size: 20px;
+}
+/* 화면 너비 800px 미만일때 작동하는 블록형 페이지 */
+@media(max-width: 800px){
+    #grid{
+        display: block;
+    }
+    #grid ul{
+        border-right: none;
+    }
+    h1{
+        border-bottom: none;
+    }
+}

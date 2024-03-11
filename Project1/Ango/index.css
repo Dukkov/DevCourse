@@ -1,0 +1,11 @@
+img {
+  height: 350px;
+  width: 650px;
+  display: block;
+  margin: 0 auto;
+}
+
+.containers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
