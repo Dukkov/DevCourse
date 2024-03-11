@@ -1,6 +1,11 @@
+import connection from "./database/connect/mariadb.js";
+
 const main = (res) => {
   console.log("main");
 
+  connection.query("SELECT * FROM product", (err, rows) => {
+    console.log(rows);
+  });
   res.writeHead(200, {"Content-Type": "text/html"});
   res.write("Main page");
   res.end();
