@@ -8,7 +8,7 @@ app.get("/", (req, res) => {
 
 app.get("/products/:num", (req, res) => {
   res.json({
-    num: req.params.num
+    num: parseInt(req.params.num)
   });
 });
 
