@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "express": "^4.18.3",
-    "figlet": "^1.7.0"
+    "figlet": "^1.7.0",
+    "morgan": "^1.10.0"
   },
   "type": "module"
 }
