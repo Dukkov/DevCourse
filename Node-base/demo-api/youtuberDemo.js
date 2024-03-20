@@ -15,11 +15,18 @@ const youtuber2 = {
 }
 
 const db = new Map();
-db.set(1, youtuber1);
-db.set(2, youtuber2);
+let key = 1;
+db.set(key++, youtuber1);
+db.set(key++, youtuber2);
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({ msg: "Welcome" });
+});
+
+app.get("/youtubers", (req, res) => {
+  res.json(Object.fromEntries(db));
 });
 
 app.get("/youtuber/:id", (req, res) => {
@@ -29,6 +36,13 @@ app.get("/youtuber/:id", (req, res) => {
     res.json(youtuber);
   else
     res.json({ msg: "Not found" });
+});
+
+app.post("/youtuber", (req, res) => {
+  const youtuber = req.body;
+  db.set(key++, youtuber);
+
+  res.json({ msg: `Welcome, ${youtuber.channelTitle}!` });
 });
 
 app.listen(port, () => {
