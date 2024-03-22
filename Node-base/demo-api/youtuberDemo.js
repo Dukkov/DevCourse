@@ -26,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/youtubers", (req, res) => {
+  console.log(db);
   res.json(Object.fromEntries(db));
 });
 
