@@ -19,8 +19,12 @@ app.get("/fruits", (req, res) => {
 });
 
 app.get("/fruits/:id", (req, res) => {
-  const idx = parseInt(req.params.id) - 1;
-  res.json(arr[idx]);
+  const targetFruit = arr.find(f => (f.id === parseInt(req.params.id)));
+  
+  if (targetFruit)
+    res.status(200).json(targetFruit);
+  else
+    res.status(404).json({ message: "Not found" });
 });
 
 app.listen(port, () => {
