@@ -32,7 +32,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/youtubers", (req, res) => {
-  res.json(Object.fromEntries(db));
+  if (db.size)
+    res.json(Object.fromEntries(db));
+  else
+    res.status(404).json({ message: "List empty" });
 });
 
 app.get("/youtubers/:id", (req, res) => {
@@ -41,14 +44,20 @@ app.get("/youtubers/:id", (req, res) => {
   if (youtuber)
     res.json(youtuber);
   else
-    res.json({ msg: "Not found" });
+    res.status(404).json({ message: "Not found" });
 });
 
 app.post("/youtubers", (req, res) => {
   const youtuber = req.body;
-  db.set(key++, youtuber);
+  const title = youtuber.channelTitle;
 
-  res.json({ msg: `Welcome, ${youtuber.channelTitle}!` });
+  if (title) {
+    db.set(key++, youtuber);
+
+    res.status(201).json({ message: `Welcome, ${youtuber.channelTitle}!` });
+  } else {
+    res.status(400).json({ message: "Bad request" });
+  }
 });
 
 app.put("/youtubers/:id", (req, res) => {
@@ -61,7 +70,7 @@ app.put("/youtubers/:id", (req, res) => {
     db.set(parseInt(req.params.id), youtuber);
     res.json({ message: `Your channel title has changed to ${youtuber.channelTitle}` });
   } else {
-    res.json({ message: "Not found" });
+    res.status(404).json({ message: "Not found" });
   }
 });
 
@@ -70,7 +79,7 @@ app.delete("/youtubers", (req, res) => {
     db.clear();
     res.json({ message: "Delete done" });
   } else {
-    res.json({ message: "No entity to delete" });
+    res.status(404).json({ message: "No entity to delete" });
   }
 });
 
@@ -81,7 +90,7 @@ app.delete("/youtubers/:id", (req, res) => {
     db.delete(parseInt(req.params.id));
     res.json({ message: "Delete done" });
   } else {
-    res.json({ message: "Not found" });
+    res.status(404).json({ message: "Not found" });
   }
 });
 
