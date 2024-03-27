@@ -1,20 +1,18 @@
 import express from "express";
 
-const app = express();
-const port = 4000;
-
+const router = express.Router();
 const userDB = new Map();
 let key = 1;
 
-app.use(express.json());
+router.use(express.json());
 
 // 메인 페이지
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.json({ message: "Welcome to Youtube page" });
 });
 
 // 회원 조회
-app.get("/users/:id", (req, res) => {
+router.get("/users/:id", (req, res) => {
   const userId = parseInt(req.params.id);
   const user = userDB.get(userId);
 
@@ -29,7 +27,7 @@ app.get("/users/:id", (req, res) => {
 });
 
 // 로그인
-app.post("/login", (req, res) => {
+router.post("/login", (req, res) => {
   const {ID, pwd} = req.body;
   let found = false;
 
@@ -46,7 +44,7 @@ app.post("/login", (req, res) => {
 });
 
 // 회원 가입
-app.post("/signUp", (req, res) => {
+router.post("/signUp", (req, res) => {
   const user = req.body;
 
   if (user.ID) {
@@ -58,7 +56,7 @@ app.post("/signUp", (req, res) => {
 });
 
 // 회원 탈퇴
-app.delete("/users/:id", (req, res) => {
+router.delete("/users/:id", (req, res) => {
   const userId = parseInt(req.params.id);
   const user = userDB.get(userId);
 
@@ -71,6 +69,4 @@ app.delete("/users/:id", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Port ${port} ready`);
-});
+export default router;

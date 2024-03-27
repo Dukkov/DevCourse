@@ -1,19 +1,17 @@
 import express from "express";
 
-const app = express();
-const port = 8000;
-
+const router = express.Router();
 const channelDB = new Map();
 let key = 1;
 
-app.use(express.json());
+router.use(express.json());
 
 // 메인 페이지
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.json({ message: "Welcome to Youtube page" });
 });
 
-app
+router
   .route("/channels")
 
   // 전체 채널 조회
@@ -37,7 +35,7 @@ app
     }
   })
 
-app
+router
   .route("/channels/:id")
 
   // 개별 채널 조회
@@ -81,6 +79,4 @@ app
     }
   })
 
-app.listen(port, () => {
-  console.log(`Port ${port} ready`);
-});
+export default router;
