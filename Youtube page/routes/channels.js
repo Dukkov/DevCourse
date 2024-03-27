@@ -6,18 +6,21 @@ let key = 1;
 
 router.use(express.json());
 
-// 메인 페이지
-router.get("/", (req, res) => {
-  res.json({ message: "Welcome to Youtube page" });
-});
-
 router
-  .route("/channels")
+  .route("/")
 
   // 전체 채널 조회
   .get((req, res) => {
-    if (channelDB.size) {
-      res.status(200).json([...channelDB.values()]);
+    const {userId} = req.body;
+    const channels = [];
+
+    if (channelDB.size && userId) {
+      channelDB.forEach((value) => {
+        if (value.userId === userId)
+          channels.push(value);
+      });
+      
+      res.status(200).json(channels);
     } else {
       res.status(404).json({ message: "Empty list" });
     }
@@ -36,7 +39,7 @@ router
   })
 
 router
-  .route("/channels/:id")
+  .route("/:id")
 
   // 개별 채널 조회
   .get((req, res) => {
