@@ -7,6 +7,8 @@ CREATE TABLE users (
 
 INSERT INTO users (name, job, birth) VALUES ("gongu", "actor", "800123");
 
+INSERT INTO users (name, job, birth) VALUES ("john", "student", "901212");
+
 CREATE TABLE posts (
   id INT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(100) NOT NULL,
