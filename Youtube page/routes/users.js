@@ -2,8 +2,6 @@ import express from "express";
 import conn from "../dbDemo.js";
 
 const router = express.Router();
-const userDB = new Map();
-let key = 1;
 
 router.use(express.json());
 
@@ -15,59 +13,65 @@ router.get("/", (req, res) => {
 // 회원 조회
 router.get("/users/:id", (req, res) => {
   const userId = parseInt(req.params.id);
-  const user = userDB.get(userId);
 
-  if (user) {
-    res.status(200).json({
-      ID: user.ID,
-      name: user.name
-    });
-  } else {
-    res.status(404).json({ message: "User not found" });
-  }
+  conn.query(
+    "SELECT * FROM users WHERE id = ?", userId,
+    (err, results) => {
+      if (results.length) {
+        res.status(200).json(results);
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    }
+  );
 });
 
 // 로그인
 router.post("/login", (req, res) => {
-  const {ID, pwd} = req.body;
-  let found = false;
+  const {email, password} = req.body;
 
-  userDB.forEach((user) => {
-    if (user.ID === ID && user.pwd === pwd) {
-      found = true;
-
-      res.status(200).json({ message: `Welcome, ${user.name}!` });
+  conn.query(
+    "SELECT * FROM users WHERE email = ?", email,
+    (err, results) => {
+      const loginUser = results[0];
+      
+      if(loginUser && loginUser.password === password) {
+        res.status(200).json({ message: `Welcome, ${loginUser.name}!` });
+      } else {
+        res.status(404).json({ message: "Login information is incorrect" });
+      }
     }
-  });
-
-  if (!found)
-    res.status(404).json({ message: "Invalid info" });
+  );
 });
 
 // 회원 가입
 router.post("/signUp", (req, res) => {
   const user = req.body;
 
-  if (user.ID) {
-    userDB.set(key++, user);
-    res.status(201).json({ message: `Welcome, ${user.name}!` });
-  } 
-  else
+  if (user.email) {
+    const {email, name, password, contact} = user;
+
+    conn.query(
+      "INSERT INTO users (email, name, password, contact) VALUES (?, ?, ?, ?)", [email, name, password, contact],
+      (err, results) => {
+        res.status(201).json({ message: `Welcome, ${user.name}!` });
+      }
+    );
+  } else {
     res.status(400).json({ message: "Bad request" });
+  }
 });
 
 // 회원 탈퇴
 router.delete("/users/:id", (req, res) => {
   const userId = parseInt(req.params.id);
-  const user = userDB.get(userId);
 
-  if (user) {
-    userDB.delete(userId);
-
-    res.status(200).json({ message: "User delete done" });
-  } else {
-    res.status(404).json({ message: "User not found" });
-  }
+  conn.query(
+    "DELETE FROM users WHERE id = ?", userId,
+    (err, results) => {
+      res.status(200).json(results);
+    }
+  );
 });
 
 export default router;
