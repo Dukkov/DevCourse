@@ -1,6 +1,10 @@
 import express from "express";
 import conn from "../dbDemo.js";
 import {body, param, validationResult} from "express-validator";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const router = express.Router();
 
@@ -46,7 +50,15 @@ router.post("/login", [body("email").notEmpty().isEmail().withMessage("Enter ema
       const loginUser = results[0];
       
       if(loginUser && loginUser.password === password) {
-        res.status(200).json({ message: `Welcome, ${loginUser.name}!` });
+        const token = jwt.sign({
+          email: loginUser.email,
+          name : loginUser.name
+        }, process.env.PRIVATE_KEY);
+
+        res.status(200).json({
+          message: `Welcome, ${loginUser.name}!`,
+          token: token
+        });
       } else {
         res.status(404).json({ message: "Login information is incorrect" });
       }
