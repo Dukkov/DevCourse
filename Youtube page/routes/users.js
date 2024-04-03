@@ -1,9 +1,19 @@
 import express from "express";
 import conn from "../dbDemo.js";
+import {body, param, validationResult} from "express-validator";
 
 const router = express.Router();
 
 router.use(express.json());
+
+const validate = (req, res, next) => {
+  const err = validationResult(req);
+
+  if (err.isEmpty())
+    return next();
+  else
+    return (res.status(400).json(err.array()));
+};
 
 // 메인 페이지
 router.get("/", (req, res) => {
@@ -27,7 +37,7 @@ router.get("/users/:id", (req, res) => {
 });
 
 // 로그인
-router.post("/login", (req, res) => {
+router.post("/login", [body("email").notEmpty().isEmail().withMessage("Enter email"), body("password").notEmpty().isString().withMessage("Enter password"), validate], (req, res) => {
   const {email, password} = req.body;
 
   conn.query(
@@ -45,7 +55,7 @@ router.post("/login", (req, res) => {
 });
 
 // 회원 가입
-router.post("/signUp", (req, res) => {
+router.post("/signUp", [body("email").notEmpty().isEmail().withMessage("Enter email"), body("name").notEmpty().isString().withMessage("Enter name"), body("password").notEmpty().isString().withMessage("Enter password"), body("contact").notEmpty().isString().withMessage("Enter contact"), validate], (req, res) => {
   const user = req.body;
 
   if (user.email) {
