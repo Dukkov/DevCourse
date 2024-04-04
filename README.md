@@ -1,5 +1,5 @@
 # DevCourse
-Welcome to the My DevCourse repository! This repository serves as a personal archive for the exercise codes I've written while participating in a DevCourse, which is Programmers' web development course. Here, you'll find a collection of practical code examples that cover various aspects of web development.
+Welcome to my DevCourse repository. This repository serves as a personal archive for the exercise codes I've written while participating in a DevCourse, which is Programmers' web development course. Here, you'll find a collection of practical code examples that cover various aspects of web development.
 
 ## About This Repository
 The purpose of this repository is purely educational. As I journey through the course, I tackle different challenges and exercises designed to strengthen my web development skills. This repository is a reflection of that journey, showcasing the hands-on practice I've engaged in.
