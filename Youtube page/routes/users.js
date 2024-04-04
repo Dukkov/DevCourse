@@ -53,14 +53,21 @@ router.post("/login", [body("email").notEmpty().isEmail().withMessage("Enter ema
         const token = jwt.sign({
           email: loginUser.email,
           name : loginUser.name
-        }, process.env.PRIVATE_KEY);
+        }, process.env.PRIVATE_KEY, {
+          expiresIn: "5m",
+          issuer: "dukkov"
+        });
+
+        res.cookie("token", token, {
+          httpOnly: true
+        });
 
         res.status(200).json({
           message: `Welcome, ${loginUser.name}!`,
           token: token
         });
       } else {
-        res.status(404).json({ message: "Login information is incorrect" });
+        res.status(403).json({ message: "Login information is incorrect" });
       }
     }
   );
