@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import userRouter from './src/routes/users.js';
 import bookRouter from './src/routes/books.js';
+import categoryRouter from './src/routes/categories.js';
 import likeRouter from './src/routes/likes.js';
 import cartRouter from './src/routes/carts.js';
 import orderRouter from './src/routes/orders.js';
@@ -11,6 +12,7 @@ dotenv.config();
 
 app.use('/users', userRouter);
 app.use('/books', bookRouter);
+app.use('/category', categoryRouter);
 app.use('/likes', likeRouter);
 app.use('/carts', cartRouter);
 app.use('/orders', orderRouter);
