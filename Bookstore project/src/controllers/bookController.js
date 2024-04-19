@@ -40,8 +40,19 @@ const allBooks = (req, res) => {
 const bookDetail = (req, res) => {
   const { userId } = req.body;
   const bookId = req.params.id;
-  const sql =
-    'SELECT *, (SELECT count(*) FROM likes WHERE liked_book_id = books.id) AS likes, (SELECT EXISTS (SELECT * FROM likes WHERE user_id = ? AND liked_book_id = ?)) AS liked FROM books LEFT JOIN category ON books.category_id = category.category_id WHERE books.id = ?;';
+  const sql = `
+    SELECT 
+      *, 
+      (SELECT count(*) FROM likes WHERE liked_book_id = books.id) AS likes, 
+      (SELECT EXISTS (SELECT * FROM likes WHERE user_id = ? AND liked_book_id = ?)) AS liked 
+    FROM 
+      books 
+    LEFT JOIN 
+      category 
+    ON 
+      books.category_id = category.category_id 
+    WHERE books.id = ?`;
+
   const values = [userId, bookId, bookId];
 
   conn.query(sql, values, (err, results) => {
