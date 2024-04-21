@@ -1,14 +1,29 @@
+// 고상민
 import { StatusCodes } from 'http-status-codes';
-import conn from '../../mysql.js';
+import mysql from 'mysql2/promise';
+// import conn from '../../mysql.js';
 
-const order = (req, res) => {
+const order = async (req, res) => {
+  const conn = await mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'Bookshop',
+    dateStrings: true
+  });
   const { items, delivery, totalQuantity, totalPrice, userId, firstBookTitle } =
     req.body;
-  let deliveryId = 3;
+  let deliveryId;
   let orderId;
   let sql =
+    'INSERT INTO delivery (address, receiver, contact) VALUES (?, ?, ?)';
+  let values = [delivery.address, delivery.receiver, delivery.contact];
+
+  let [results] = await conn.query(sql, values);
+
+  sql =
     'INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id) VALUES (?, ?, ?, ?, ?)';
-  let values = [firstBookTitle, totalQuantity, totalPrice, userId, deliveryId];
+  values = [firstBookTitle, totalQuantity, totalPrice, userId, deliveryId];
 
   sql = 'INSERT INTO orderedBook (order_id, book_id, quantity) VALUES ?';
   values = [];
