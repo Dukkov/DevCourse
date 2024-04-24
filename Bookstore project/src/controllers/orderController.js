@@ -1,6 +1,7 @@
-// 고상민
 import { StatusCodes } from 'http-status-codes';
+import jwt from 'jsonwebtoken';
 import mysql from 'mysql2/promise';
+import ensureAuthorization from '../../auth.js';
 
 const deleteCartItems = async (conn) => {
   const sql = 'DELETE FROM cartItems WHERE id IN (?)';
@@ -18,7 +19,19 @@ const order = async (req, res) => {
     database: 'Bookshop',
     dateStrings: true
   });
-  const { items, delivery, totalQuantity, totalPrice, userId, firstBookTitle } =
+
+  const authorization = ensureAuthorization(req);
+
+  if (authorization instanceof jwt.TokenExpiredError) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: '다시 로그인 하세요' });
+  }
+  if (authorization instanceof jwt.JsonWebTokenError) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ message: '잘못된 토큰' });
+  }
+
+  const { items, delivery, totalQuantity, totalPrice, firstBookTitle } =
     req.body;
   let sql =
     'INSERT INTO delivery (address, receiver, contact) VALUES (?, ?, ?)';
@@ -28,7 +41,13 @@ const order = async (req, res) => {
 
   sql =
     'INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id) VALUES (?, ?, ?, ?, ?)';
-  values = [firstBookTitle, totalQuantity, totalPrice, userId, deliveryId];
+  values = [
+    firstBookTitle,
+    totalQuantity,
+    totalPrice,
+    authorization.id,
+    deliveryId
+  ];
   [results] = await conn.execute(sql, values);
   const orderId = results.insertId;
 

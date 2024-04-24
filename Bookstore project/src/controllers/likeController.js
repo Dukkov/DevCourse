@@ -2,22 +2,25 @@ import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import conn from '../../mysql.js';
+import ensureAuthorization from '../../auth.js';
 
 dotenv.config();
 
-const ensureAuthorization = (req) => {
-  const receivedJwt = req.headers.authorization;
-  const decodedJwt = jwt.verify(receivedJwt, process.env.PRIVATE_KEY);
-
-  return decodedJwt;
-};
-
 const addLike = (req, res) => {
-  const { id } = req.params;
+  const { bookId } = req.params;
   const authorization = ensureAuthorization(req);
 
+  if (authorization instanceof jwt.TokenExpiredError) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: '다시 로그인 하세요' });
+  }
+  if (authorization instanceof jwt.JsonWebTokenError) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ message: '잘못된 토큰' });
+  }
+
   const sql = 'INSERT INTO likes (user_id, liked_book_id) values (?, ?)';
-  const values = [authorization.id, id];
+  const values = [authorization.id, bookId];
 
   conn.query(sql, values, (err, results) => {
     if (err) {
