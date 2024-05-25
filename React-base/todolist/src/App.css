@@ -6,6 +6,8 @@
   color: black;
   text-align: left;
   font-size: 20px;
+  margin-top: 10px;
+  padding-top: 15px;
 }
 
 .container {
@@ -15,6 +17,18 @@
   padding: 20px;
   background-color: rgb(25, 25, 63);
   color: white;
+}
+
+.del-button {
+  color: red;
+  background-color: white;
+  border: 1px solid red;
+  border-radius: 5px;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
 }
 
 /* .App {
