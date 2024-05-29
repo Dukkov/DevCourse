@@ -1,0 +1,18 @@
+/* App.css */
+.App {
+  text-align: center;
+}
+
+.characters {
+  list-style: none;
+  padding: 0;
+}
+
+.characters li {
+  border: 1px solid #ccc;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  background-color: #fff;
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
